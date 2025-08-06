@@ -29,12 +29,14 @@ Before running this project, make sure you have:
 ## Installation & Setup
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/malakasaber/Model-Deployment-using-Django.git
    cd Model-Deployment-using-Django
    ```
 
 2. **Create and activate virtual environment**
+
    ```bash
    # Windows
    python -m venv venv
@@ -46,16 +48,19 @@ Before running this project, make sure you have:
    ```
 
 3. **Install dependencies**
+
    ```bash
    pip install django scikit-learn pandas numpy
    ```
 
 4. **Run database migrations**
+
    ```bash
    python manage.py migrate
    ```
 
 5. **Start the development server**
+
    ```bash
    python manage.py runserver
    ```
@@ -66,6 +71,7 @@ Before running this project, make sure you have:
 ## Usage
 
 1. **Fill in the form** with the following trip details:
+
    - Car condition
    - Weather conditions
    - Traffic conditions
@@ -111,41 +117,67 @@ DjangoTask/
 ## Machine Learning Models
 
 ### Ridge Regression
+
 - **Purpose**: Linear regression with L2 regularization
 - **Strengths**: Good for handling multicollinearity, stable predictions
 - **Use Case**: Baseline model for fare prediction
 
 ### Decision Tree
+
 - **Purpose**: Non-linear tree-based regression model
 - **Strengths**: Captures complex patterns, easy to interpret
 - **Use Case**: Handles non-linear relationships in fare calculation
+
+### Random Forest
+
+- **Purpose:** Ensemble of decision trees to improve prediction accuracy
+- **Strengths:** Reduces overfitting, robust to noise, handles missing values
+- **Use Case:** Accurate fare prediction with reduced variance in results
+
+### XGBoost
+
+- **Purpose:** Gradient boosting framework optimized for speed and performance
+- **Strengths:** High accuracy, handles missing data, effective on structured data
+- **Use Case:** Predicts fares with fine-grained performance tuning and scalability
+
+### K-Nearest Neighbors (KNN)
+
+- **Purpose:** Instance-based learning model for classification and regression
+- **Strengths:** Simple, non-parametric, adapts well to local data structure
+- **Use Case:** Estimates fares by comparing with similar past trips
+
+### Linear Regression
+
+- **Purpose:** Models linear relationship between input variables and output
+- **Strengths:** Fast, interpretable, works well with linearly correlated data
+- **Use Case:** Predicts fares based on distance when the relationship is linear
 
 ## 📊 Input Features
 
 The model uses the following 20 features for prediction:
 
-| Feature | Description |
-|---------|-------------|
-| `car_condition` | Condition of the taxi (numeric scale) |
-| `weather` | Weather conditions (numeric scale) |
-| `traffic_condition` | Traffic density (numeric scale) |
-| `pickup_longitude` | Pickup location longitude |
-| `pickup_latitude` | Pickup location latitude |
-| `dropoff_longitude` | Dropoff location longitude |
-| `dropoff_latitude` | Dropoff location latitude |
-| `passenger_count` | Number of passengers |
-| `hour` | Hour of the day (0-23) |
-| `day` | Day of the month (1-31) |
-| `month` | Month of the year (1-12) |
-| `weekday` | Day of the week (0-6) |
-| `year` | Year |
-| `jfk_dist` | Distance to JFK Airport |
-| `ewr_dist` | Distance to Newark Airport |
-| `lga_dist` | Distance to LaGuardia Airport |
-| `sol_dist` | Distance to Statue of Liberty |
-| `nyc_dist` | Distance to NYC center |
-| `distance` | Trip distance |
-| `bearing` | Direction of travel |
+| Feature             | Description                           |
+| ------------------- | ------------------------------------- |
+| `car_condition`     | Condition of the taxi (numeric scale) |
+| `weather`           | Weather conditions (numeric scale)    |
+| `traffic_condition` | Traffic density (numeric scale)       |
+| `pickup_longitude`  | Pickup location longitude             |
+| `pickup_latitude`   | Pickup location latitude              |
+| `dropoff_longitude` | Dropoff location longitude            |
+| `dropoff_latitude`  | Dropoff location latitude             |
+| `passenger_count`   | Number of passengers                  |
+| `hour`              | Hour of the day (0-23)                |
+| `day`               | Day of the month (1-31)               |
+| `month`             | Month of the year (1-12)              |
+| `weekday`           | Day of the week (0-6)                 |
+| `year`              | Year                                  |
+| `jfk_dist`          | Distance to JFK Airport               |
+| `ewr_dist`          | Distance to Newark Airport            |
+| `lga_dist`          | Distance to LaGuardia Airport         |
+| `sol_dist`          | Distance to Statue of Liberty         |
+| `nyc_dist`          | Distance to NYC center                |
+| `distance`          | Trip distance                         |
+| `bearing`           | Direction of travel                   |
 
 ## UI Features
 
@@ -158,12 +190,14 @@ The model uses the following 20 features for prediction:
 ## Development
 
 ### Adding New Models
+
 1. Train your model and save it as a `.pkl` file
 2. Place it in the `myapp/models/` directory
 3. Update `ml_pipeline.py` to load and use your model
 4. Modify the view and template to display the new predictions
 
 ### Customizing the UI
+
 - Edit `myapp/templates/myapp/index.html` for structure and styling
 - Modify CSS classes for different visual themes
 - Add new animations or interactive elements as needed
@@ -188,9 +222,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Authors
 
 **Malak Ahmed Saber**
+
 - GitHub: [@malakasaber](https://github.com/malakasaber)
 
 **Marawan Abbas**
+
 - Github: [@MarwanAbbas205](https://github.com/MarwanAbbas205)
 
 ## Acknowledgments
@@ -202,6 +238,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Support
 
 If you have any questions or run into issues, please:
+
 1. Check the existing issues on GitHub
 2. Create a new issue with detailed information
 3. Contact the maintainer
