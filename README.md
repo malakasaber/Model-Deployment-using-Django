@@ -72,12 +72,8 @@ Before running this project, make sure you have:
 
 1. **Fill in the form** with the following trip details:
 
-   - Car condition
-   - Weather conditions
-   - Traffic conditions
    - Pickup and dropoff coordinates (longitude/latitude)
    - Passenger count
-   - Date and time information (hour, day, month, weekday, year)
    - Distances to key locations (JFK, EWR, LGA airports, Statue of Liberty, NYC)
    - Trip distance and bearing
 
@@ -97,8 +93,13 @@ DjangoTask/
 │   └── asgi.py
 ├── myapp/                      # Main Django app
 │   ├── models/                 # Pre-trained ML models
-│   │   ├── ridge_regression_model.pkl
-│   │   └── decision_tree_model.pkl
+│   │   ├── transformer.pkl
+│   │   ├── transformer2.pkl
+│   │   ├── XGB.pkl
+│   │   ├── Linear.pkl
+│   │   ├── KNN.pkl
+│   │   ├── ridgeregression.pkl
+│   │   └── decisiontree.pkl
 │   ├── templates/myapp/        # HTML templates
 │   │   └── index.html
 │   ├── __init__.py
@@ -106,6 +107,7 @@ DjangoTask/
 │   ├── apps.py
 │   ├── ml_pipeline.py          # ML model loading and prediction logic
 │   ├── models.py
+│   ├── model2.py
 │   ├── urls.py
 │   ├── views.py
 │   └── tests.py
@@ -115,6 +117,24 @@ DjangoTask/
 ```
 
 ## Machine Learning Models
+
+### XGBoost
+
+- **Purpose:** Gradient boosting framework optimized for speed and performance
+- **Strengths:** High accuracy, handles missing data, effective on structured data
+- **Use Case:** Predicts fares with fine-grained performance tuning and scalability
+
+### Linear Regression
+
+- **Purpose:** Models linear relationship between input variables and output
+- **Strengths:** Fast, interpretable, works well with linearly correlated data
+- **Use Case:** Predicts fares based on distance when the relationship is linear
+
+### K-Nearest Neighbors (KNN)
+
+- **Purpose:** Instance-based learning model for classification and regression
+- **Strengths:** Simple, non-parametric, adapts well to local data structure
+- **Use Case:** Estimates fares by comparing with similar past trips
 
 ### Ridge Regression
 
@@ -128,49 +148,17 @@ DjangoTask/
 - **Strengths**: Captures complex patterns, easy to interpret
 - **Use Case**: Handles non-linear relationships in fare calculation
 
-### Random Forest
-
-- **Purpose:** Ensemble of decision trees to improve prediction accuracy
-- **Strengths:** Reduces overfitting, robust to noise, handles missing values
-- **Use Case:** Accurate fare prediction with reduced variance in results
-
-### XGBoost
-
-- **Purpose:** Gradient boosting framework optimized for speed and performance
-- **Strengths:** High accuracy, handles missing data, effective on structured data
-- **Use Case:** Predicts fares with fine-grained performance tuning and scalability
-
-### K-Nearest Neighbors (KNN)
-
-- **Purpose:** Instance-based learning model for classification and regression
-- **Strengths:** Simple, non-parametric, adapts well to local data structure
-- **Use Case:** Estimates fares by comparing with similar past trips
-
-### Linear Regression
-
-- **Purpose:** Models linear relationship between input variables and output
-- **Strengths:** Fast, interpretable, works well with linearly correlated data
-- **Use Case:** Predicts fares based on distance when the relationship is linear
-
 ## 📊 Input Features
 
 The model uses the following 20 features for prediction:
 
 | Feature             | Description                           |
 | ------------------- | ------------------------------------- |
-| `car_condition`     | Condition of the taxi (numeric scale) |
-| `weather`           | Weather conditions (numeric scale)    |
-| `traffic_condition` | Traffic density (numeric scale)       |
 | `pickup_longitude`  | Pickup location longitude             |
 | `pickup_latitude`   | Pickup location latitude              |
 | `dropoff_longitude` | Dropoff location longitude            |
 | `dropoff_latitude`  | Dropoff location latitude             |
 | `passenger_count`   | Number of passengers                  |
-| `hour`              | Hour of the day (0-23)                |
-| `day`               | Day of the month (1-31)               |
-| `month`             | Month of the year (1-12)              |
-| `weekday`           | Day of the week (0-6)                 |
-| `year`              | Year                                  |
 | `jfk_dist`          | Distance to JFK Airport               |
 | `ewr_dist`          | Distance to Newark Airport            |
 | `lga_dist`          | Distance to LaGuardia Airport         |
@@ -244,3 +232,4 @@ If you have any questions or run into issues, please:
 3. Contact the maintainer
 
 ---
+
