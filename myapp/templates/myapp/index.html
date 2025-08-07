@@ -400,18 +400,6 @@
             {% csrf_token %}
             <div class="form-grid">
                 <div class="form-group">
-                    <input type="number" step="any" name="car_condition" placeholder="Car Condition" required>
-                    <span class="input-icon">🚗</span>
-                </div>
-                <div class="form-group">
-                    <input type="number" step="any" name="weather" placeholder="Weather" required>
-                    <span class="input-icon">🌤️</span>
-                </div>
-                <div class="form-group">
-                    <input type="number" step="any" name="traffic_condition" placeholder="Traffic Condition" required>
-                    <span class="input-icon">🚦</span>
-                </div>
-                <div class="form-group">
                     <input type="number" step="any" name="pickup_longitude" placeholder="Pickup Longitude" required>
                     <span class="input-icon">📍</span>
                 </div>
@@ -426,30 +414,6 @@
                 <div class="form-group">
                     <input type="number" step="any" name="dropoff_latitude" placeholder="Dropoff Latitude" required>
                     <span class="input-icon">🎯</span>
-                </div>
-                <div class="form-group">
-                    <input type="number" step="any" name="passenger_count" placeholder="Passenger Count" required>
-                    <span class="input-icon">👥</span>
-                </div>
-                <div class="form-group">
-                    <input type="number" step="any" name="hour" placeholder="Hour" required>
-                    <span class="input-icon">🕐</span>
-                </div>
-                <div class="form-group">
-                    <input type="number" step="any" name="day" placeholder="Day" required>
-                    <span class="input-icon">📅</span>
-                </div>
-                <div class="form-group">
-                    <input type="number" step="any" name="month" placeholder="Month" required>
-                    <span class="input-icon">📅</span>
-                </div>
-                <div class="form-group">
-                    <input type="number" step="any" name="weekday" placeholder="Weekday" required>
-                    <span class="input-icon">📅</span>
-                </div>
-                <div class="form-group">
-                    <input type="number" step="any" name="year" placeholder="Year" required>
-                    <span class="input-icon">📅</span>
                 </div>
                 <div class="form-group">
                     <input type="number" step="any" name="jfk_dist" placeholder="Distance to JFK" required>
@@ -471,23 +435,16 @@
                     <input type="number" step="any" name="nyc_dist" placeholder="Distance to NYC" required>
                     <span class="input-icon">🏙️</span>
                 </div>
-                <div class="form-group">
-                    <input type="number" step="any" name="distance" placeholder="Trip Distance" required>
-                    <span class="input-icon">📏</span>
-                </div>
-                <div class="form-group">
-                    <input type="number" step="any" name="bearing" placeholder="Bearing" required>
-                    <span class="input-icon">🧭</span>
-                </div>
             </div>
 
             <button type="submit">Predict Fare</button>
-            
+
             <div class="loading" id="loadingSpinner">
                 <div class="spinner"></div>
                 <p>Calculating your fare...</p>
             </div>
         </form>
+
 
         {% if error %}
             <div class="error">{{ error }}</div>
@@ -498,6 +455,15 @@
     <div class="modal" id="predictionModal">
         <div class="modal-content">
             <h3>Predicted Fares</h3>
+            <div class="prediction-result">
+                <strong>XGBoost:</strong> ${{ xgb_result }}
+            </div>
+            <div class="prediction-result">
+                <strong>Linear Regression:</strong> ${{ linear_result }}
+            </div>
+            <div class="prediction-result">
+                <strong>KNN:</strong> ${{ knn_result }}
+            </div>
             <div class="prediction-result">
                 <strong>Ridge Regression:</strong> ${{ ridge_result }}
             </div>

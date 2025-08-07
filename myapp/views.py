@@ -2,45 +2,36 @@ from django.shortcuts import render
 from .ml_pipeline import predict_fare
 
 def index(request):
+    xgb_result = None
+    linear_result = None
+    knn_result = None
     ridge_result = None
     dtree_result = None
     error = None
 
     if request.method == 'POST':
         try:
-            # Get all 20 numeric input features
-            car_condition = float(request.POST.get('car_condition'))
-            weather = float(request.POST.get('weather'))
-            traffic_condition = float(request.POST.get('traffic_condition'))
-            pickup_longitude = float(request.POST.get('pickup_longitude'))
-            pickup_latitude = float(request.POST.get('pickup_latitude'))
-            dropoff_longitude = float(request.POST.get('dropoff_longitude'))
-            dropoff_latitude = float(request.POST.get('dropoff_latitude'))
-            passenger_count = float(request.POST.get('passenger_count'))
-            hour = float(request.POST.get('hour'))
-            day = float(request.POST.get('day'))
-            month = float(request.POST.get('month'))
-            weekday = float(request.POST.get('weekday'))
-            year = float(request.POST.get('year'))
-            jfk_dist = float(request.POST.get('jfk_dist'))
-            ewr_dist = float(request.POST.get('ewr_dist'))
-            lga_dist = float(request.POST.get('lga_dist'))
-            sol_dist = float(request.POST.get('sol_dist'))
-            nyc_dist = float(request.POST.get('nyc_dist'))
-            distance = float(request.POST.get('distance'))
-            bearing = float(request.POST.get('bearing'))
-
-            # Input order must match model training
+            # Collect exactly 9 numeric features
             input_features = [
-                car_condition, weather, traffic_condition,
-                pickup_longitude, pickup_latitude, dropoff_longitude, dropoff_latitude,
-                passenger_count, hour, day, month, weekday, year,
-                jfk_dist, ewr_dist, lga_dist, sol_dist, nyc_dist, distance, bearing
+                float(request.POST.get('pickup_longitude')),
+                float(request.POST.get('pickup_latitude')),
+                float(request.POST.get('dropoff_longitude')),
+                float(request.POST.get('dropoff_latitude')),
+                float(request.POST.get('jfk_dist')),
+                float(request.POST.get('ewr_dist')),
+                float(request.POST.get('lga_dist')),
+                float(request.POST.get('sol_dist')),
+                float(request.POST.get('nyc_dist'))
             ]
 
-            # Get predictions
-            ridge_pred, dtree_pred = predict_fare(input_features)
+            # Pass directly
+            xgb_pred, linear_pred, ridge_pred, dtree_pred, knn_pred = predict_fare(input_features)
 
+
+            # Round results
+            xgb_result = round(xgb_pred, 2)
+            linear_result = round(linear_pred, 2)
+            knn_result = round(knn_pred, 2)
             ridge_result = round(ridge_pred, 2)
             dtree_result = round(dtree_pred, 2)
 
@@ -48,6 +39,9 @@ def index(request):
             error = f"Error: {e}"
 
     return render(request, 'myapp/index.html', {
+        'xgb_result': xgb_result,
+        'linear_result': linear_result,
+        'knn_result':knn_result,
         'ridge_result': ridge_result,
         'dtree_result': dtree_result,
         'error': error
