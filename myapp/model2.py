@@ -49,6 +49,17 @@ data.drop(
 # removing rows with null values
 data.dropna(axis=0, inplace=True)
 
+# separating features and target variable
+X = data.drop(labels=["fare_amount"], axis=1)
+Y = data["fare_amount"].copy()
+
+
+# splitting the dataset into train and test sets
+x_train, x_test, y_train, y_test = train_test_split(
+    X, Y, test_size=0.2, random_state=42
+)
+
+
 # feature extraction and scaling
 PCA_featuers = [
     "pickup_longitude",
@@ -61,64 +72,31 @@ PCA_featuers = [
     "sol_dist",
     "nyc_dist",
 ]
-
-# separating features and target variable
-
-#--------Changed--------
-# # X = data.drop(labels=["fare_amount"], axis=1)
-#--------to-------
-X = data[PCA_featuers]
-#-----------------
-
-Y = data["fare_amount"].copy()
-
-
-# splitting the dataset into train and test sets
-x_train, x_test, y_train, y_test = train_test_split(
-    X, Y, test_size=0.2, random_state=42
+pca_pipeline = Pipeline(
+    [("scaler", RobustScaler()), ("pca", PCA(random_state=42, n_components=0.95))]
 )
 
+# Define column transformer
+pca_colum_transformer = ColumnTransformer(
+    transformers=[
+        ("pca_features", pca_pipeline, PCA_featuers),
+        (
+            "scale_rest",
+            RobustScaler(),
+            [col for col in x_train.columns if col not in PCA_featuers],
+        ),
+    ],
+    remainder="passthrough",
+    verbose_feature_names_out=False,
+)
 
-#--------Changed--------
-# pca_pipeline = Pipeline(
-#     [("scaler", RobustScaler()), ("pca", PCA(random_state=42, n_components=0.95))]
-# )
-#--------to-------
-transformer = Pipeline([
-    ("scaler", RobustScaler()),
-    ("pca", PCA(random_state=42, n_components=0.95))
-])
-#-----------------
-
-#--------Changed/commented--------
-# # Define column transformer
-# pca_colum_transformer = ColumnTransformer(
-#     transformers=[
-#         ("pca_features", pca_pipeline, PCA_featuers),
-#         (
-#             "scale_rest",
-#             RobustScaler(),
-#             [col for col in x_train.columns if col not in PCA_featuers],
-#         ),
-#     ],
-#     remainder="passthrough",
-#     verbose_feature_names_out=False,
-# )
-
-
-#--------Changed--------
-# # Transform
-# x_train_scaled = pca_colum_transformer.fit_transform(x_train)
-# x_test_scaled = pca_colum_transformer.transform(x_test)
-# # To DataFrame
-# x_train_scaled = pd.DataFrame(
-#     x_train_scaled, columns=pca_colum_transformer.get_feature_names_out()
-# )
-#--------to-------
-x_train_scaled = transformer.fit_transform(x_train)
-x_test_scaled = transformer.transform(x_test)
-#-----------------
-
+# Transform
+x_train_scaled = pca_colum_transformer.fit_transform(x_train)
+x_test_scaled = pca_colum_transformer.transform(x_test)
+# To DataFrame
+x_train_scaled = pd.DataFrame(
+    x_train_scaled, columns=pca_colum_transformer.get_feature_names_out()
+)
 # Fit the model
 # model = RandomForestRegressor(
 #     n_estimators=100,
@@ -170,7 +148,7 @@ os.makedirs(models_dir, exist_ok=True)
 # # pickle.dump(pca_pipeline, open(os.path.join(models_dir, "transformer2.pkl"), "wb"))
 # pickle.dump(pca_colum_transformer, open(os.path.join(models_dir, "transformer2.pkl"), "wb"))
 #--------to-------
-pickle.dump(transformer, open(os.path.join(models_dir, "transformer2.pkl"), "wb"))
+pickle.dump(pca_colum_transformer, open(os.path.join(models_dir, "transformer2.pkl"), "wb"))
 #-----------------
 
 pickle.dump(model2, open(os.path.join(models_dir, "XGB.pkl"), "wb"))
@@ -178,3 +156,4 @@ pickle.dump(model3, open(os.path.join(models_dir, "Linear.pkl"), "wb"))
 pickle.dump(model4, open(os.path.join(models_dir, "KNN.pkl"), "wb"))
 
 print("Model2 pipeline and models saved successfully!")
+
