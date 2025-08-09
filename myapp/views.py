@@ -17,11 +17,19 @@ def index(request):
                 float(request.POST.get('pickup_latitude')),
                 float(request.POST.get('dropoff_longitude')),
                 float(request.POST.get('dropoff_latitude')),
+                float(request.POST.get('passenger_count')),
+                float(request.POST.get('hour')),
+                float(request.POST.get('day')),
+                float(request.POST.get('month')),
+                float(request.POST.get('weekday')),
+                float(request.POST.get('year')),
                 float(request.POST.get('jfk_dist')),
                 float(request.POST.get('ewr_dist')),
                 float(request.POST.get('lga_dist')),
                 float(request.POST.get('sol_dist')),
-                float(request.POST.get('nyc_dist'))
+                float(request.POST.get('nyc_dist')),
+                float(request.POST.get('distance')),
+                float(request.POST.get('bearing ')),
             ]
 
             # Pass directly
