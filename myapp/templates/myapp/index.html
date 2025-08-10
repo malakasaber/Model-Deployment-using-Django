@@ -186,8 +186,8 @@
         }
 
         /* Modal styles */
-        .modal {
-            display: {% if ridge_result and dtree_result %}flex{% else %}none{% endif %};
+        /* .modal {
+            display: {% if xgb_result and linear_result %}flex{% else %}none{% endif %};
             position: fixed;
             z-index: 1000;
             left: 0;
@@ -199,7 +199,7 @@
             align-items: center;
             justify-content: center;
             animation: fadeIn 0.3s ease;
-        }
+        } */
 
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -416,6 +416,38 @@
                     <span class="input-icon">🎯</span>
                 </div>
                 <div class="form-group">
+                    <input type="number" step="any" name="passenger_count" placeholder="passenger_count" required>
+                    <span class="input-icon">🔢</span>
+                </div>
+                <div class="form-group">
+                    <input type="number" step="any" name="hour" placeholder="hour" required>
+                    <span class="input-icon">🕰️</span>
+                </div>
+                <div class="form-group">
+                    <input type="number" step="any" name="day" placeholder="day" required>
+                    <span class="input-icon">🕰️</span>
+                </div>
+                <div class="form-group">
+                    <input type="number" step="any" name="month" placeholder="month" required>
+                    <span class="input-icon">🕰️</span>
+                </div>
+                <div class="form-group">
+                    <input type="number" step="any" name="weekday" placeholder="weekday" required>
+                    <span class="input-icon">🕰️</span>
+                </div>
+                <div class="form-group">
+                    <input type="number" step="any" name="year" placeholder="year" required>
+                    <span class="input-icon">🕰️</span>
+                </div>
+                <div class="form-group">
+                    <input type="number" step="any" name="distance" placeholder="distance" required>
+                    <span class="input-icon">🛣️</span>
+                </div>
+                <div class="form-group">
+                    <input type="number" step="any" name="bearing " placeholder="bearing " required>
+                    <span class="input-icon">📐</span>
+                </div>
+                <div class="form-group">
                     <input type="number" step="any" name="jfk_dist" placeholder="Distance to JFK" required>
                     <span class="input-icon">✈️</span>
                 </div>
@@ -460,15 +492,6 @@
             </div>
             <div class="prediction-result">
                 <strong>Linear Regression:</strong> ${{ linear_result }}
-            </div>
-            <div class="prediction-result">
-                <strong>KNN:</strong> ${{ knn_result }}
-            </div>
-            <div class="prediction-result">
-                <strong>Ridge Regression:</strong> ${{ ridge_result }}
-            </div>
-            <div class="prediction-result">
-                <strong>Decision Tree:</strong> ${{ dtree_result }}
             </div>
             <button class="close-btn" onclick="closeModal()">Close</button>
         </div>
